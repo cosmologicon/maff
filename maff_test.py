@@ -9,6 +9,11 @@ class MaffTest(unittest.TestCase):
 	def assertClose(self, a, b, rel_tol=1e-09, abs_tol=0.0):
 		self.assertTrue(isclose(a, b, rel_tol, abs_tol))
 
+	def assertCollinear(self, a, b, c):
+		# a, b, and c are collinear with b in between a and c
+		self.assertClose(math.distance(a, b) + math.distance(b, c), math.distance(a, c))
+
+
 	def test_phi(self):
 		self.assertGreater(math.Phi, 0)
 		self.assertClose(math.phi, math.Phi + 1)
@@ -106,14 +111,19 @@ class MaffTest(unittest.TestCase):
 			for v1 in vs:
 				for d in (0, 0.01, 1, 100):
 					v = math.approach(v0, v1, d)
-					# v0, v, v1 collinear by the triangle inequality
-					# with v in between v0 and v1
-					self.assertClose(
-						math.distance(v0, v) + math.distance(v, v1),
-						math.distance(v0, v1))
+					self.assertCollinear(v0, v, v1)
 					self.assertClose(
 						math.distance(v0, v),
 						min(math.distance(v0, v1), d))
+
+	def test_softapproach(self):
+		self.assertClose(math.softapproach(10, 20, 0), 10)
+		self.assertClose(math.softapproach(10, 20, 0.01), 10.1, rel_tol=1e-4)
+		self.assertClose(math.softapproach(10, 20, 7), 20)
+		self.assertClose(
+			math.softapproach(10, 20, 3),
+			math.softapproach(math.softapproach(10, 20, 1), 20, 2))
+
 
 	def test_CS(self):
 		cases = (0, 1, 1, 0), (1.5, 0, 0, 0), (math.tau / 8, math.sqrt(2), 1, 1)

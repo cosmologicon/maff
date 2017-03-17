@@ -65,10 +65,22 @@ x1, with a fade interval of dx on both ends.
 
 `maff.dsmoothfade(x, x0, x1, dx)`: double-fade with Hermite interpolation.
 
-## Other functions
+## Approach functions
 
 `maff.approach(x, y, dx)`: increase or decrease x by amount dx in the direction of y. If the
 distance between x and y is less than dx, then return y instead. x and y can be vectors.
+
+`maff.softapproach(x, y, dlogx)`: increase or decrease x by an amount determined by dlogx. dlogx is
+a unitless parameter between 0 and infinity. If dlogx is 0, then x will be returned. For
+sufficiently large dlogx, then y will be returned. Calling this repeatedly and updating the value of
+x will give exponential decay toward y, with a timescale factor of 1 / dlogx.
+
+`maff.softapproach(x, y, dlogx, dxmax=inf, dymin=0.1)`: After calculating the approach distance dx,
+it's compared with dxmax. If it exceeds dxmax then it's capped at dxmax. If the resulting is a
+distance less than dymin away from y, then y is returned. This is because with exponential decay
+it's impossible to ever exactly reach y.
+
+## Other functions
 
 `maff.CS(theta)`: 2-tuple of cos(theta), sin(theta).
 

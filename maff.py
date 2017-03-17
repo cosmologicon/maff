@@ -62,7 +62,7 @@ def dfade(x, x0, x1, dx):
 def dsmoothfade(x, x0, x1, dx):
 	return ease(dfade(x, x0, x1, dx))
 
-# Approach function
+# Approach functions
 def approach(x, target, dx):
 	try:
 		d = distance(x, target)
@@ -74,6 +74,18 @@ def approach(x, target, dx):
 		if d <= dx:
 			return target
 		return mix(x, target, dx / d)
+def softapproach(x, target, dlogx, dxmax = float("inf"), dymin = 0.1):
+	try:
+		d = distance(x, target)
+		vector = True
+	except TypeError:
+		d = abs(x - target)
+		vector = False
+	f = -math.expm1(-dlogx)
+	if f * d > dxmax: f = dxmax / d
+	if (1 - f) * d < dymin: return target
+	return [mix(a, b, f) for a, b in zip(x, target)] if vector else mix(x, target, f)
+	
 
 # Polar coordinates
 def CS(theta, r = 1):
