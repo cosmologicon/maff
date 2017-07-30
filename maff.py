@@ -4,6 +4,9 @@
 from __future__ import division
 import math
 
+__version__ = '0.1'
+__versioninfo__ = (0, 1)
+
 # Circle constant. Already available in 3.6+
 tau = math.tau if hasattr(math, "tau") else 2 * math.pi
 
@@ -85,7 +88,7 @@ def softapproach(x, target, dlogx, dxmax = float("inf"), dymin = 0.1):
 	if f * d > dxmax: f = dxmax / d
 	if (1 - f) * d < dymin: return target
 	return [mix(a, b, f) for a, b in zip(x, target)] if vector else mix(x, target, f)
-	
+
 
 # Polar coordinates
 def CS(theta, r = 1):
