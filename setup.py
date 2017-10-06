@@ -7,7 +7,7 @@ setup(
     description='Python convenience functions that I wish were in the math module',
     long_description=open('README.md').read(),
     url='https://github.com/cosmologicon/maff',
-    author='Christopher Knight',
+    author='Christopher Night',
     author_email='cosmologicon@gmail.com',
     py_modules=['maff'],
     test_suite="maff_test",
