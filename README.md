@@ -90,3 +90,7 @@ it's impossible to ever exactly reach y.
 unit circle.
 
 `maff.CSround(ntheta, r=1, jtheta0=0)`: specify radius and offset.
+
+## Thanks
+
+Special thanks to [Daniel Pope (lordmauve)](https://github.com/lordmauve) for handling the packaging and licensing!
