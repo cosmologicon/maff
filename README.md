@@ -91,6 +91,11 @@ unit circle.
 
 `maff.CSround(ntheta, r=1, jtheta0=0)`: specify radius and offset.
 
+`maff.R(theta, (x, y))`: 2-tuple of the vector <x, y> rotated counterclockwise by the angle `theta`.
+
+`maff.R(theta)`: returns a function that takes a single vector argument, and return that vector
+rotated counterclockwise by the angle `theta`.
+
 ## Thanks
 
 Special thanks to [Daniel Pope (lordmauve)](https://github.com/lordmauve) for handling the packaging and licensing!

@@ -96,6 +96,19 @@ def CS(theta, r = 1):
 def CSround(ntheta, r = 1, jtheta0 = 0):
 	return [CS((jtheta + jtheta0) / ntheta * tau, r) for jtheta in range(ntheta)]
 
+# Rotation transform
+def R(theta, v = None):
+	C, S = CS(theta)
+	if v is not None:
+		x, y = v
+		return C * x - S * y, S * x + C * y
+	else:
+		def R(v):
+			x, y = v
+			return C * x - S * y, S * x + C * y
+		return R
+	
+
 # Add to math module
 _globals = dict(globals())
 for k, v in _globals.items():

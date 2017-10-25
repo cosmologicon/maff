@@ -144,6 +144,25 @@ class MaffTest(unittest.TestCase):
 						k = (j + 1) % ntheta
 						self.assertClose(math.distance(xys[j], xys[k]), d)
 
+	def test_R(self):
+		cases = (
+			(1.23, 0, 0, 0, 0),
+			(math.tau / 4, 1, 0, 0, 1),
+			(math.tau / 4, 7, 0, 0, 7),
+			(math.tau / 4, 0, 1, -1, 0),
+			(math.tau / 8, 2, 0, math.sqrt(2), math.sqrt(2)),
+		)
+		for theta, x0, y0, x1, y1 in cases:
+			x, y = math.R(theta, (x0, y0))
+			self.assertClose(x, x1, abs_tol=1e-10)
+			self.assertClose(y, y1, abs_tol=1e-10)
+			R = math.R(theta)
+			x, y = R((x0, y0))
+			x, y = R((x0, y0))
+			self.assertClose(x, x1, abs_tol=1e-10)
+			self.assertClose(y, y1, abs_tol=1e-10)
+			
+
 if __name__ == '__main__':
     unittest.main()
 
