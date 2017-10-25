@@ -6,8 +6,13 @@ def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
 	return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 class MaffTest(unittest.TestCase):
+
 	def assertClose(self, a, b, rel_tol=1e-09, abs_tol=0.0):
 		self.assertTrue(isclose(a, b, rel_tol, abs_tol))
+
+	def assertVectorClose(self, x, y, rel_tol=1e-09, abs_tol=0.0):
+		for a, b in zip(x, y):
+			self.assertClose(a, b, rel_tol, abs_tol)
 
 	def assertCollinear(self, a, b, c):
 		# a, b, and c are collinear with b in between a and c
@@ -32,7 +37,15 @@ class MaffTest(unittest.TestCase):
 
 	def test_mix(self):
 		self.assertClose(math.mix(20, 30, 0.3), 23)
-		self.assertClose(math.mix(20, 30, -0.3), 17)
+		self.assertClose(math.mix(20, 30, -0.3), 20)
+		self.assertClose(math.mix(20, 30, 1.3), 30)
+		self.assertVectorClose(math.mix((20, 30), (40, 10), 0.3), (26, 24))
+		self.assertVectorClose(math.mix((20, 30), (40, 10), -0.3), (20, 30))
+		self.assertVectorClose(math.mix((20, 30), (40, 10), 1.3), (40, 10))
+
+	def test_imix(self):
+		self.assertEqual(math.imix(20, 30, 0.33), 23)
+		self.assertEqual(math.imix((20, 30), (40, 10), 0.33), (27, 23))
 
 	def test_step(self):
 		self.assertEqual(math.step(0, 1), 1)
@@ -154,13 +167,11 @@ class MaffTest(unittest.TestCase):
 		)
 		for theta, x0, y0, x1, y1 in cases:
 			x, y = math.R(theta, (x0, y0))
-			self.assertClose(x, x1, abs_tol=1e-10)
-			self.assertClose(y, y1, abs_tol=1e-10)
+			self.assertVectorClose((x, y), (x1, y1), abs_tol=1e-10)
 			R = math.R(theta)
 			x, y = R((x0, y0))
 			x, y = R((x0, y0))
-			self.assertClose(x, x1, abs_tol=1e-10)
-			self.assertClose(y, y1, abs_tol=1e-10)
+			self.assertVectorClose((x, y), (x1, y1), abs_tol=1e-10)
 			
 
 if __name__ == '__main__':

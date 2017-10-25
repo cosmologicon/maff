@@ -20,7 +20,17 @@ def sign(x):
 def clamp(x, a, b):
 	return a if x < a else b if x > b else x
 def mix(x, y, a):
-	return x * (1 - a) + y * a
+	a = clamp(a, 0, 1)
+	try:
+		return tuple(b * (1 - a) + c * a for b, c in zip(x, y))
+	except TypeError:
+		return x * (1 - a) + y * a
+def imix(x, y, a):
+	a = clamp(a, 0, 1)
+	try:
+		return tuple(int(round(b * (1 - a) + c * a)) for b, c in zip(x, y))
+	except TypeError:
+		return int(round(x * (1 - a) + y * a))
 def step(edge, x):
 	return float(x >= edge)
 def smoothstep(edge0, edge1, x):
@@ -69,25 +79,21 @@ def dsmoothfade(x, x0, x1, dx):
 def approach(x, target, dx):
 	try:
 		d = distance(x, target)
-		if d <= dx:
-			return target
-		return [mix(a, b, dx / d) for a, b in zip(x, target)]
 	except TypeError:
 		d = abs(x - target)
-		if d <= dx:
-			return target
-		return mix(x, target, dx / d)
+	if d <= dx:
+		return target
+	return mix(x, target, dx / d)
 def softapproach(x, target, dlogx, dxmax = float("inf"), dymin = 0.1):
 	try:
 		d = distance(x, target)
-		vector = True
 	except TypeError:
 		d = abs(x - target)
-		vector = False
 	f = -math.expm1(-dlogx)
 	if f * d > dxmax: f = dxmax / d
-	if (1 - f) * d < dymin: return target
-	return [mix(a, b, f) for a, b in zip(x, target)] if vector else mix(x, target, f)
+	if (1 - f) * d < dymin:
+		return target
+	return mix(x, target, f)
 
 
 # Polar coordinates

@@ -36,7 +36,10 @@ use. I plan to use it for game jams.
 
 `maff.clamp(x, a, b)`: clamps x to range [a, b].
 
-`maff.mix(x, y, a)`: mix the values x and y with mixing factor a.
+`maff.mix(x, y, a)`: mix the values x and y with mixing factor a. The value of a is clamped to the
+range [0, 1]. Also works for vector-valued x and y.
+
+`maff.imix(x, y, a)`: like `mix`, but converts the value to the nearest integer.
 
 `maff.step(edge, x)`: Heaviside step function of x with given edge.
 
@@ -98,4 +101,5 @@ rotated counterclockwise by the angle `theta`.
 
 ## Thanks
 
-Special thanks to [Daniel Pope (lordmauve)](https://github.com/lordmauve) for handling the packaging and licensing!
+Special thanks to [Daniel Pope (lordmauve)](https://github.com/lordmauve) for handling the packaging
+and licensing!
