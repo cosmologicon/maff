@@ -74,6 +74,13 @@ def dfade(x, x0, x1, dx):
 	return min(fade(x, x0, dx), 1 - fade(x, x1 - dx, dx))
 def dsmoothfade(x, x0, x1, dx):
 	return ease(dfade(x, x0, x1, dx))
+# Fade between function
+def fadebetween(x, x0, y0, x1, y1):
+	a = fade(x, x0, x1 - x0)
+	return mix(y0, y1, a)
+def smoothfadebetween(x, x0, y0, x1, y1):
+	a = smoothfade(x, x0, x1 - x0)
+	return mix(y0, y1, a)
 
 # Approach functions
 def approach(x, target, dx):

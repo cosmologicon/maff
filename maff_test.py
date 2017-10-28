@@ -112,6 +112,18 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.dsmoothfade(11, 10, 20, 4), 0.15625)
 		self.assertClose(math.dsmoothfade(19, 10, 20, 4), 0.15625)
 
+	def test_fadebetween(self):
+		self.assertClose(math.fadebetween(13, 10, 2, 20, 0), 1.4)
+		self.assertClose(math.fadebetween(9, 10, 2, 20, 0), 2)
+		self.assertClose(math.fadebetween(22, 10, 2, 20, 0), 0)
+		self.assertVectorClose(math.fadebetween(13, 10, (0, 0), 20, (1000, 2000)), (300, 600))
+
+	def test_smoothfadebetween(self):
+		self.assertClose(math.smoothfadebetween(11, 10, 2, 14, 0), 1.6875)
+		self.assertClose(math.smoothfadebetween(9, 10, 2, 20, 0), 2)
+		self.assertClose(math.smoothfadebetween(22, 10, 2, 20, 0), 0)
+		self.assertVectorClose(math.smoothfadebetween(11, 10, (0, 0), 14, (1000, 2000)), (156.25, 312.5))
+
 	def test_approach(self):
 		self.assertClose(math.approach(10, 20, 1), 11)
 		self.assertClose(math.approach(10, -20, 1), 9)

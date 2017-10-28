@@ -43,7 +43,8 @@ range [0, 1]. Also works for vector-valued x and y.
 
 `maff.step(edge, x)`: Heaviside step function of x with given edge.
 
-`maff.smoothstep(edge0, edge1, x)`: step function with Hermite interpolation between edge0 and edge1.
+`maff.smoothstep(edge0, edge1, x)`: step function with Hermite interpolation between edge0 and
+edge1.
 
 `maff.length(v)`: length of vector v. Can be any iterable.
 
@@ -67,6 +68,12 @@ range [0, 1]. Also works for vector-valued x and y.
 x1, with a fade interval of dx on both ends.
 
 `maff.dsmoothfade(x, x0, x1, dx)`: double-fade with Hermite interpolation.
+
+`maff.fadebetween(x, x0, y0, x1, y1)`: returns the y-value such that (x, y) is linearly interpolated
+between the points (x0, y0) and (x1, y1). Works for vector-valued y's.
+
+`maff.smoothfadebetween(x, x0, y0, x1, y1)`: returns the y-value such that (x, y) is smoothly
+interpolated between (x0, y0) and (x1, y1). Works for vector-valued y's.
 
 ## Approach functions
 
