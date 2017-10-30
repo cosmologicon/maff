@@ -75,6 +75,9 @@ between the points (x0, y0) and (x1, y1). Works for vector-valued y's.
 `maff.smoothfadebetween(x, x0, y0, x1, y1)`: returns the y-value such that (x, y) is smoothly
 interpolated between (x0, y0) and (x1, y1). Works for vector-valued y's.
 
+`maff.cycle(a)`: sinusoidal cycle between 0 and 1 and back to 0 with period 1. Can be used with
+`maff.mix` to cycle between two values: `maff.mix(x, y, maff.cycle(a))`.
+
 ## Approach functions
 
 `maff.approach(x, y, dx)`: increase or decrease x by amount dx in the direction of y. If the

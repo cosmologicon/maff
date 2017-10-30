@@ -124,6 +124,13 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.smoothfadebetween(22, 10, 2, 20, 0), 0)
 		self.assertVectorClose(math.smoothfadebetween(11, 10, (0, 0), 14, (1000, 2000)), (156.25, 312.5))
 
+	def test_cycle(self):
+		self.assertEqual(math.cycle(0), 0)
+		self.assertClose(math.cycle(7), 0, abs_tol=1e-10)
+		self.assertClose(math.cycle(-4.5), 1)
+		self.assertClose(math.cycle(0.75), 0.5)
+		self.assertClose(math.cycle(0.4), 0.9045084971874737)
+
 	def test_approach(self):
 		self.assertClose(math.approach(10, 20, 1), 11)
 		self.assertClose(math.approach(10, -20, 1), 9)

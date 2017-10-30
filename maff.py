@@ -81,6 +81,9 @@ def fadebetween(x, x0, y0, x1, y1):
 def smoothfadebetween(x, x0, y0, x1, y1):
 	a = smoothfade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
+# Cycle between 0 and 1
+def cycle(a):
+	return 0.5 - 0.5 * math.cos(math.tau * a)
 
 # Approach functions
 def approach(x, target, dx):
