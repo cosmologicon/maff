@@ -19,10 +19,13 @@ Download `maff.py` and put it in your source directory. To install from command 
 
 	curl https://raw.githubusercontent.com/cosmologicon/maff/master/maff.py > my-source-directory/maff.py
 
-## Usage note
+## Usage notes
 
 As the name hopefully implies, this is a bit of a frivolous module and not recommended for serious
 use. I plan to use it for game jams.
+
+Any function that accepts a "vector" expects some iterable, typically a list, tuple, `pygame.math.Vector2`,
+etc. Try your vector type and see if it works. If not, file an issue, and I should be able to support it.
 
 ## Constants
 
