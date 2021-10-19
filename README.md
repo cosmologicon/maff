@@ -88,18 +88,40 @@ vector-valued y's.
 
 ## Approach functions
 
-`maff.approach(x, y, dx)`: increase or decrease x by amount dx in the direction of y. If the
-distance between x and y is less than dx, then return y instead. x and y can be vectors.
+`maff.approach(x, target, dx)`: increase or decrease x by amount dx in the direction of target. If
+the distance between x and target is less than dx, then return target instead. x and target can be
+vectors.
 
-`maff.softapproach(x, y, dlogx)`: increase or decrease x by an amount determined by dlogx. dlogx is
-a unitless parameter between 0 and infinity. If dlogx is 0, then x will be returned. For
-sufficiently large dlogx, then y will be returned. Calling this repeatedly and updating the value of
-x will give exponential decay toward y, with a timescale factor of 1 / dlogx.
+`maff.softapproach(x, target, dlogx)`: increase or decrease x by an amount determined by dlogx.
+dlogx is a unitless parameter between 0 and infinity. If dlogx is 0, then x will be returned. For
+sufficiently large dlogx, then target will be returned. Calling this repeatedly and updating the
+value of x will give exponential decay toward target, with a timescale factor of 1 / dlogx.
 
-`maff.softapproach(x, y, dlogx, dxmax=inf, dymin=0.1)`: After calculating the approach distance dx,
-it's compared with dxmax. If it exceeds dxmax then it's capped at dxmax. If the resulting is a
-distance less than dymin away from y, then y is returned. This is because with exponential decay
-it's impossible to ever exactly reach y.
+`maff.softapproach(x, target, dlogx, dxmax=inf, dymin=0.1)`: After calculating the approach
+distance dx, it's compared with dxmax. If it exceeds dxmax then it's capped at dxmax. If the
+result is a distance less than dymin away from target, then target is returned. This is because with
+exponential decay it's impossible to ever exactly reach target.
+
+## Angular analogues
+
+The "A" in the function and variable names indicates angles in radians. Different angles are
+treated equivalent if they are equal modulo tau.
+
+`maff.dA(A)`: returns the angle equivalent to A (mod tau) that's closest to 0.
+
+`maff.mixA(A0, A1, a)`: returns a value equal to A0 at a = 0, and A1 at a = 1. In between it takes
+the shortest path around the circle.
+
+`maff.fadebetweenA(x, x0, A0, x1, A1)` or `maff.interpA(x, x0, A0, x1, A1)`: linear angular
+interpolation. Note that only A0 and A1 are treated as angles, not x, x0, and x1.
+
+`maff.smoothfadebetweenA(x, x0, A0, x1, A1)` or `maff.smoothinterpA(x, x0, A0, x1, A1)`: smooth
+angular interpolation. Note that only A0 and A1 are treated as angles, not x, x0, and x1.
+
+`maff.approachA(A, targetA, deltaA)`: increase or decrease A in the direction of targetA by the
+amount deltaA, taking the shortest path around the circle.
+
+`maff.softapproachA(A, targetA, dlogA)`: exponential angular approach function.
 
 ## Trigonometry and Rotation
 

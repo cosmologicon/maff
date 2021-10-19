@@ -171,6 +171,27 @@ class MaffTest(unittest.TestCase):
 			math.softapproach(10, 20, 3),
 			math.softapproach(math.softapproach(10, 20, 1), 20, 2))
 
+	def test_dA(self):
+		self.assertClose(math.dA(1), 1)
+		self.assertClose(math.dA(-3), -3)
+		self.assertClose(math.dA(4 * math.tau - 1), -1)
+
+	def test_approachA(self):
+		self.assertClose(math.approachA(3, -2, 0), 3)
+		self.assertClose(math.approachA(3, -2, 1), 4)
+		self.assertClose(math.approachA(3, -2, 2), -2)
+		self.assertClose(math.approachA(4, -2, 0), 4)
+		self.assertClose(math.approachA(1, -2, 1), 0)
+
+	def test_softapproachA(self):
+		A0, A1 = 10, 13 + 5 * math.tau
+		self.assertClose(math.softapproachA(A0, A1, 0), A0)
+		self.assertClose(math.softapproachA(A0, A1, 0.01), 10.03, rel_tol=1e-4)
+		self.assertClose(math.softapproachA(A0, A1, 7), A1)
+
+	def test_fadebetweenA(self):
+		self.assertClose(math.fadebetweenA(13, 10, 3, 20, 4 * math.tau + 4), 3.3)
+		self.assertClose(math.fadebetweenA(13, 20, 4 * math.tau + 4, 10, 3), 4 * math.tau + 3.3)
 
 	def test_CS(self):
 		cases = (0, 1, 1, 0), (1.5, 0, 0, 0), (math.tau / 8, math.sqrt(2), 1, 1)

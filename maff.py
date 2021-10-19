@@ -80,18 +80,18 @@ def dsmoothfade(x, x0, x1, dx):
 	return ease(dfade(x, x0, x1, dx))
 # Fade between function
 def fadebetween(x, x0, y0, x1, y1):
-	if x1 < x0: return fadebetween(x, x1, y1, x0, y0)
+	if x1 < x0: x1, y1, x0, y0 = x0, y0, x1, y1
 	a = fade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
+interp = fadebetween
 def smoothfadebetween(x, x0, y0, x1, y1):
-	if x1 < x0: return smoothfadebetween(x, x1, y1, x0, y0)
+	if x1 < x0: x1, y1, x0, y0 = x0, y0, x1, y1
 	a = smoothfade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
-interp = fadebetween
 smoothinterp = smoothfadebetween
 # Cycle between 0 and 1
 def cycle(a):
-	return 0.5 - 0.5 * math.cos(math.tau * a)
+	return 0.5 - 0.5 * math.cos(tau * a)
 
 # Approach functions
 def approach(x, target, dx):
@@ -107,11 +107,37 @@ def softapproach(x, target, dlogx, dxmax = float("inf"), dymin = 0.1):
 		d = distance(x, target)
 	except TypeError:
 		d = abs(x - target)
-	f = -math.expm1(-dlogx)
-	if f * d > dxmax: f = dxmax / d
-	if (1 - f) * d < dymin:
+	a = -math.expm1(-dlogx)
+	if a * d > dxmax: a = dxmax / d
+	if (1 - a) * d < dymin:
 		return target
-	return mix(x, target, f)
+	return mix(x, target, a)
+
+
+# Angular analogues - angles are treated modulo tau.
+def dA(A):
+	return (A + tau / 2) % tau - tau / 2
+def mixA(A0, A1, a):
+	return A1 if a >= 1 else A0 + dA(A1 - A0) * clamp(a, 0, 1)
+def fadebetweenA(x, x0, A0, x1, A1):
+	a = fadebetween(x, x0, 0, x1, 1)
+	return mixA(A0, A1, a)
+interpA = fadebetweenA
+def smoothfadebetweenA(x, x0, A0, x1, A1):
+	a = smoothfadebetween(x, x0, 0, x1, 1)
+	return mixA(A0, A1, a)
+smoothinterpA = smoothfadebetweenA
+def approachA(A, targetA, deltaA):
+	d = dA(targetA - A)
+	if abs(d) <= deltaA: return targetA
+	return A + deltaA * sign(d)
+def softapproachA(A, targetA, dlogA, dAmax = float("inf"), dAmin = 0.01):
+	d = abs(dA(targetA - A))
+	a = -math.expm1(-dlogA)
+	if a * d > dAmax: a = dAmax / d
+	if (1 - a) * d < dAmin:
+		return targetA
+	return mixA(A, targetA, a)
 
 
 # Polar coordinates
