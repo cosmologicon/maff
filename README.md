@@ -75,11 +75,13 @@ x1, with a fade interval of dx on both ends.
 
 `maff.dsmoothfade(x, x0, x1, dx)`: double-fade with Hermite interpolation.
 
-`maff.fadebetween(x, x0, y0, x1, y1)`: returns the y-value such that (x, y) is linearly interpolated
-between the points (x0, y0) and (x1, y1). Works for vector-valued y's.
+`maff.fadebetween(x, x0, y0, x1, y1)` or `maff.interp(x, x0, y0, x1, y1)`: returns the y-value such
+that (x, y) is linearly interpolated between the points (x0, y0) and (x1, y1). Works for
+vector-valued y's.
 
-`maff.smoothfadebetween(x, x0, y0, x1, y1)`: returns the y-value such that (x, y) is smoothly
-interpolated between (x0, y0) and (x1, y1). Works for vector-valued y's.
+`maff.smoothfadebetween(x, x0, y0, x1, y1)` or `maff.smoothinterp(x, x0, y0, x1, y1)`: returns the
+y-value such that (x, y) is smoothly interpolated between (x0, y0) and (x1, y1). Works for
+vector-valued y's.
 
 `maff.cycle(a)`: sinusoidal cycle between 0 and 1 and back to 0 with period 1. Can be used with
 `maff.mix` to cycle between two values: `maff.mix(x, y, maff.cycle(a))`.

@@ -44,7 +44,7 @@ def smoothstep(edge0, edge1, x):
 	a = (x - edge0) / (edge1 - edge0)
 	return a * a * (3 - 2 * a)
 def length(v):
-	return math.sqrt(sum(a * a for a in v))
+	return math.sqrt(sum(a ** 2 for a in v))
 def distance(v0, v1):
 	return math.sqrt(sum((a0 - a1) ** 2 for a0, a1 in zip(v0, v1)))
 def dot(v0, v1):
@@ -66,6 +66,7 @@ def ease(x):
 # Fade function
 def fade(x, x0, dx):
 	x -= x0
+	if dx < 0: return 1 - fade(-x, 0, -dx)
 	if x <= 0: return 0
 	if x >= dx: return 1
 	return x / dx
@@ -79,11 +80,15 @@ def dsmoothfade(x, x0, x1, dx):
 	return ease(dfade(x, x0, x1, dx))
 # Fade between function
 def fadebetween(x, x0, y0, x1, y1):
+	if x1 < x0: return fadebetween(x, x1, y1, x0, y0)
 	a = fade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
 def smoothfadebetween(x, x0, y0, x1, y1):
+	if x1 < x0: return smoothfadebetween(x, x1, y1, x0, y0)
 	a = smoothfade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
+interp = fadebetween
+smoothinterp = smoothfadebetween
 # Cycle between 0 and 1
 def cycle(a):
 	return 0.5 - 0.5 * math.cos(math.tau * a)

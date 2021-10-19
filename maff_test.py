@@ -39,6 +39,7 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.mix(20, 30, 0.3), 23)
 		self.assertClose(math.mix(20, 30, -0.3), 20)
 		self.assertClose(math.mix(20, 30, 1.3), 30)
+		self.assertClose(math.mix(30, 20, 0.3), 27)
 		self.assertVectorClose(math.mix((20, 30), (40, 10), 0.3), (26, 24))
 		self.assertVectorClose(math.mix((20, 30), (40, 10), -0.3), (20, 30))
 		self.assertVectorClose(math.mix((20, 30), (40, 10), 1.3), (40, 10))
@@ -90,11 +91,16 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.fade(5, 10, 4), 0)
 		self.assertClose(math.fade(11, 10, 4), 0.25)
 		self.assertClose(math.fade(14, 10, 4), 1)
+		self.assertClose(math.fade(5, 10, -4), 0)
+		self.assertClose(math.fade(7, 10, -4), 0.25)
+		self.assertClose(math.fade(11, 10, -4), 1)
 
 	def test_smoothfade(self):
 		self.assertClose(math.smoothfade(5, 10, 4), 0)
 		self.assertClose(math.smoothfade(11, 10, 4), 0.15625)
 		self.assertClose(math.smoothfade(14, 10, 4), 1)
+		self.assertClose(math.smoothfade(7, 10, -4), 0.15625)
+		self.assertClose(math.smoothfade(11, 10, -4), 1)
 
 	def test_dfade(self):
 		self.assertClose(math.dfade(5, 10, 20, 0), 0)
@@ -106,6 +112,13 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.dfade(200, 10, 20, 4), 0)
 		self.assertClose(math.dfade(14, 10, 20, 10), 0.4)
 		self.assertClose(math.dfade(16, 10, 20, 10), 0.4)
+		self.assertClose(math.dfade(6, 10, 20, -4), 0)
+		self.assertClose(math.dfade(7, 10, 20, -4), 0.25)
+		self.assertClose(math.dfade(10, 10, 20, -4), 1)
+		self.assertClose(math.dfade(14, 10, 20, -4), 1)
+		self.assertClose(math.dfade(20, 10, 20, -4), 1)
+		self.assertClose(math.dfade(23, 10, 20, -4), 0.25)
+		self.assertClose(math.dfade(24, 10, 20, -4), 0)
 
 	def test_dsmoothfade(self):
 		self.assertClose(math.dsmoothfade(5, 10, 20, 0), 0)
@@ -117,12 +130,14 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.fadebetween(9, 10, 2, 20, 0), 2)
 		self.assertClose(math.fadebetween(22, 10, 2, 20, 0), 0)
 		self.assertVectorClose(math.fadebetween(13, 10, (0, 0), 20, (1000, 2000)), (300, 600))
+		self.assertClose(math.fadebetween(13, 20, 0, 10, 2), 1.4)
 
 	def test_smoothfadebetween(self):
 		self.assertClose(math.smoothfadebetween(11, 10, 2, 14, 0), 1.6875)
 		self.assertClose(math.smoothfadebetween(9, 10, 2, 20, 0), 2)
 		self.assertClose(math.smoothfadebetween(22, 10, 2, 20, 0), 0)
 		self.assertVectorClose(math.smoothfadebetween(11, 10, (0, 0), 14, (1000, 2000)), (156.25, 312.5))
+		self.assertClose(math.smoothfadebetween(11, 14, 0, 10, 2), 1.6875)
 
 	def test_cycle(self):
 		self.assertEqual(math.cycle(0), 0)
