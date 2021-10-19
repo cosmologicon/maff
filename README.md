@@ -123,6 +123,23 @@ amount deltaA, taking the shortest path around the circle.
 
 `maff.softapproachA(A, targetA, dlogA)`: exponential angular approach function.
 
+## Log-space analogues
+
+Simple convenience functions for doing interpolation in log space. The function simply takes the
+logarithm of any argument with "L", and then takes the exponential of the result before returning.
+For example, `maff.mixL(xL, yL, 0.5)` returns the geometric mean of xL and yL rather than the
+arithmetic mean.
+
+`maff.mixL(xL, yL, a)`
+
+`maff.fadebetweenL(x, x0, yL0, x1, yL1)` or `maff.interpL(x, x0, yL0, x1, yL1)`
+
+`maff.smoothfadebetweenL(x, x0, yL0, x1, yL1)` or `maff.smoothinterpL(x, x0, yL0, x1, yL1)`
+
+`maff.approachL(xL, targetL, dx)`
+
+`maff.softapproachL(xL, targetL, dlogx)`
+
 ## Trigonometry and Rotation
 
 `maff.CS(theta)`: 2-tuple of cos(theta), sin(theta).

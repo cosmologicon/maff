@@ -140,6 +140,21 @@ def softapproachA(A, targetA, dlogA, dAmax = float("inf"), dAmin = 0.01):
 	return mixA(A, targetA, a)
 
 
+# Log-space analogues
+def mixL(xL, yL, a):
+	return math.exp(mix(math.log(xL), math.log(yL), a))
+def fadebetweenL(x, x0, yL0, x1, yL1):
+	return math.exp(fadebetween(x, x0, math.log(yL0), x1, math.log(yL1)))
+interpL = fadebetweenL
+def smoothfadebetweenL(x, x0, yL0, x1, yL1):
+	return math.exp(smoothfadebetween(x, x0, math.log(yL0), x1, math.log(yL1)))
+smoothinterpL = smoothfadebetweenL
+def approachL(xL, targetL, dx):
+	return math.exp(approach(math.log(xL), math.log(targetL), dx))
+def softapproachL(xL, targetL, dlogx, dxmax = float("inf"), dymin = 0.1):
+	return math.exp(softapproach(math.log(xL), math.log(targetL), dlogx, dxmax, dymin))
+
+
 # Polar coordinates
 def CS(theta, r = 1):
 	return r * math.cos(theta), r * math.sin(theta)

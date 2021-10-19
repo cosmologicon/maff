@@ -193,6 +193,14 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.fadebetweenA(13, 10, 3, 20, 4 * math.tau + 4), 3.3)
 		self.assertClose(math.fadebetweenA(13, 20, 4 * math.tau + 4, 10, 3), 4 * math.tau + 3.3)
 
+	def test_mixL(self):
+		self.assertClose(math.mixL(10, 10000, 1/3), 100)
+		self.assertClose(math.mixL(10000, 10, 1/3), 1000)
+
+	def test_fadebetweenL(self):
+		self.assertClose(math.fadebetweenL(1, 0, 10, 3, 10000), 100)
+		self.assertClose(math.fadebetweenL(1, 3, 10000, 0, 10), 100)
+
 	def test_CS(self):
 		cases = (0, 1, 1, 0), (1.5, 0, 0, 0), (math.tau / 8, math.sqrt(2), 1, 1)
 		for theta, r, x, y in cases:
