@@ -14,6 +14,9 @@ tau = math.tau if hasattr(math, "tau") else 2 * math.pi
 phi = (1 + math.sqrt(5)) / 2
 Phi = phi - 1
 
+# So-called golden divergence angle of phyllotaxis, around 137.5 deg.
+phyllo = tau * (2 - phi)
+
 # GLSL functions
 def sign(x):
 	return 1. if x > 0 else -1. if x < 0 else 0.

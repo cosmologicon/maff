@@ -33,6 +33,9 @@ etc. Try your vector type and see if it works. If not, file an issue, and I shou
 
 `maff.phi` and `maff.Phi`: golden ratio and reciprocal golden ratio.
 
+`maff.phyllo`: so-called "golden" divergence angle of phyllotaxis, equal to `tau * (2 - phi)`,
+equivalent to about 137.5°.
+
 ## Functions taken from GLSL
 
 `maff.sign(x)`: sign of x.
