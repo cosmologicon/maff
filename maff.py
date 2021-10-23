@@ -156,10 +156,10 @@ def softapproachL(xL, targetL, dlogx, dxmax = float("inf"), dymin = 0.1):
 
 
 # Polar coordinates
-def CS(theta, r = 1):
-	return r * math.cos(theta), r * math.sin(theta)
-def CSround(ntheta, r = 1, jtheta0 = 0):
-	return [CS((jtheta + jtheta0) / ntheta * tau, r) for jtheta in range(ntheta)]
+def CS(theta, r = 1, center = (0, 0)):
+	return center[0] + r * math.cos(theta), center[1] + r * math.sin(theta)
+def CSround(ntheta, r = 1, jtheta0 = 0, center = (0, 0)):
+	return [CS((jtheta + jtheta0) / ntheta * tau, r, center) for jtheta in range(ntheta)]
 
 # Rotation transform
 def R(theta, v = None):

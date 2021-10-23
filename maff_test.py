@@ -207,6 +207,9 @@ class MaffTest(unittest.TestCase):
 			a, b = math.CS(theta, r)
 			self.assertClose(a, x)
 			self.assertClose(b, y)
+		a, b = math.CS(math.tau / 8, math.sqrt(2), (3, 4))
+		self.assertClose(a, 4)
+		self.assertClose(b, 5)
 
 	def test_CSround(self):
 		for ntheta in (2, 4, 7, 13):

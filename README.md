@@ -146,10 +146,12 @@ arithmetic mean.
 
 `maff.CS(theta, r)`: 2-tuple of r cos(theta), r sin(theta).
 
+`maff.CS(theta, r, (x0, y0))`: 2-tuple of x0 + r cos(theta), y0 + r sin(theta).
+
 `maff.CSround(ntheta)`: Produces ntheta 2-tuples of cos(theta), sin(theta) distributed around the
 unit circle.
 
-`maff.CSround(ntheta, r=1, jtheta0=0)`: specify radius and offset.
+`maff.CSround(ntheta, r=1, jtheta0=0, center=(0, 0))`: specify radius, angular offset, and center.
 
 `maff.R(theta, (x, y))`: 2-tuple of the vector <x, y> rotated counterclockwise by the angle `theta`.
 
