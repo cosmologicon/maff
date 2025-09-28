@@ -158,16 +158,6 @@ unit circle.
 `maff.R(theta)`: returns a function that takes a single vector argument, and return that vector
 rotated counterclockwise by the angle `theta`.
 
-## Pseudorandom values
-
-`maff.fuzz(*args)`: produce a number in the range [0, 1) that is deterministically calculated from
-any number of numerical arguments. The result can be treated as a low-quality pseudorandom number,
-using the arguments as a seed. Differences in the arguments smaller than 1e-6 may result in
-correlations. That is, `maff.fuzz(x)` may be close or equal to `maff.fuzz(x + 1e-7)`.
-
-`maff.fuzzrange(a, b, *args)`: produce a number in the range [a, b). Equivalent to:
-`maff.mix(a, b, maff.fuzz(*args))`.
-
 ## Thanks
 
 Special thanks to [Daniel Pope (lordmauve)](https://github.com/lordmauve) for handling the packaging

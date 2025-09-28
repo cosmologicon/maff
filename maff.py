@@ -173,18 +173,6 @@ def R(theta, v = None):
 			return C * x - S * y, S * x + C * y
 		return R
 
-# Deterministic pseudorandom
-def fuzz(*args):
-	a = 0.12
-	for x in args:
-		a += x + 3.45
-		a *= 6.78
-	return 91011.12 * math.sin(a) % 1
-
-def fuzzrange(a, b, *args):
-	return mix(a, b, fuzz(*args))
-
-
 # Add to math module
 _globals = dict(globals())
 for k, v in _globals.items():
