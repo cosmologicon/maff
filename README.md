@@ -45,8 +45,6 @@ equivalent to about 137.5°.
 `maff.mix(x, y, a)`: mix the values x and y with mixing factor a. The value of a is clamped to the
 range [0, 1]. Also works for vector-valued x and y.
 
-`maff.imix(x, y, a)`: like `mix`, but converts the value to the nearest integer.
-
 `maff.step(edge, x)`: Heaviside step function of x with given edge.
 
 `maff.smoothstep(edge0, edge1, x)`: step function with Hermite interpolation between edge0 and
@@ -64,6 +62,8 @@ edge1.
 
 ## Fade functions
 
+These functions all return values in the range [0, 1].
+
 `maff.ease(x)`: Hermite interpolation of x in range (0, 1). Equal to `maff.smoothstep(0, 1, x)`.
 
 `maff.fade(x, x0, dx)`: fade from 0 to 1 starting at x = x0 for a fade interval of dx.
@@ -75,16 +75,18 @@ x1, with a fade interval of dx on both ends.
 
 `maff.dsmoothfade(x, x0, x1, dx)`: double-fade with Hermite interpolation.
 
-`maff.fadebetween(x, x0, y0, x1, y1)` or `maff.interp(x, x0, y0, x1, y1)`: returns the y-value such
+`maff.cycle(a)`: sinusoidal cycle between 0 and 1 and back to 0 with period 1. Can be used with
+`maff.mix` to cycle between two values: `maff.mix(x, y, maff.cycle(a))`.
+
+## Interpolation functions
+
+`maff.interp(x, x0, y0, x1, y1)` or `maff.fadebetween(x, x0, y0, x1, y1)`: returns the y-value such
 that (x, y) is linearly interpolated between the points (x0, y0) and (x1, y1). Works for
 vector-valued y's.
 
-`maff.smoothfadebetween(x, x0, y0, x1, y1)` or `maff.smoothinterp(x, x0, y0, x1, y1)`: returns the
+`maff.smoothinterp(x, x0, y0, x1, y1)` or `maff.smoothfadebetween(x, x0, y0, x1, y1)`: returns the
 y-value such that (x, y) is smoothly interpolated between (x0, y0) and (x1, y1). Works for
 vector-valued y's.
-
-`maff.cycle(a)`: sinusoidal cycle between 0 and 1 and back to 0 with period 1. Can be used with
-`maff.mix` to cycle between two values: `maff.mix(x, y, maff.cycle(a))`.
 
 ## Approach functions
 
@@ -102,6 +104,19 @@ distance dx, it's compared with dxmax. If it exceeds dxmax then it's capped at d
 result is a distance less than dymin away from target, then target is returned. This is because with
 exponential decay it's impossible to ever exactly reach target.
 
+## Nearest integer analogues
+
+`maff.I(x)`: nearest integer to x. Also works with vector-valued x.
+
+`maff.mixI(xI, yI, a)`: like `mix`, but converts the value to the nearest integer. Generally xI
+and yI should be integers.
+
+`maff.interpI(x, x0, yI0, x1, yI1)`: like `maff.interp` but rounds the result to the nearest
+integer. Generally yI0 and yI1 should be integers.
+
+`maff.smoothinterpI(x, x0, yI0, x1, yI1)`: like `maff.smoothinterp` but rounds the result to the
+nearest integer. Generally yI0 and yI1 should be integers.
+
 ## Angular analogues
 
 The "A" in the function and variable names indicates angles in radians. Different angles are
@@ -112,10 +127,10 @@ treated equivalent if they are equal modulo tau.
 `maff.mixA(A0, A1, a)`: returns a value equal to A0 at a = 0, and A1 at a = 1. In between it takes
 the shortest path around the circle.
 
-`maff.fadebetweenA(x, x0, A0, x1, A1)` or `maff.interpA(x, x0, A0, x1, A1)`: linear angular
+`maff.interpA(x, x0, A0, x1, A1)` or `maff.fadebetweenA(x, x0, A0, x1, A1)`: linear angular
 interpolation. Note that only A0 and A1 are treated as angles, not x, x0, and x1.
 
-`maff.smoothfadebetweenA(x, x0, A0, x1, A1)` or `maff.smoothinterpA(x, x0, A0, x1, A1)`: smooth
+`maff.smoothinterpA(x, x0, A0, x1, A1)` or `maff.smoothfadebetweenA(x, x0, A0, x1, A1)`: smooth
 angular interpolation. Note that only A0 and A1 are treated as angles, not x, x0, and x1.
 
 `maff.approachA(A, targetA, deltaA)`: increase or decrease A in the direction of targetA by the
@@ -132,9 +147,9 @@ arithmetic mean.
 
 `maff.mixL(xL, yL, a)`
 
-`maff.fadebetweenL(x, x0, yL0, x1, yL1)` or `maff.interpL(x, x0, yL0, x1, yL1)`
+`maff.interpL(x, x0, yL0, x1, yL1)` or `maff.fadebetweenL(x, x0, yL0, x1, yL1)`
 
-`maff.smoothfadebetweenL(x, x0, yL0, x1, yL1)` or `maff.smoothinterpL(x, x0, yL0, x1, yL1)`
+`maff.smoothinterpL(x, x0, yL0, x1, yL1)` or `maff.smoothfadebetweenL(x, x0, yL0, x1, yL1)`
 
 `maff.approachL(xL, targetL, dx)`
 

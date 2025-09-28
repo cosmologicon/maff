@@ -24,6 +24,10 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.phi, math.Phi + 1)
 		self.assertClose(math.phi, 1 / math.Phi)
 
+	def test_I(self):
+		self.assertEqual(math.I(12.2), 12)
+		self.assertEqual(math.I((12.6, -12.2)), (13, -12))
+
 	def test_sign(self):
 		self.assertEqual(math.sign(-0.3), -1)
 		self.assertEqual(math.sign(0.0), 0)
@@ -44,9 +48,9 @@ class MaffTest(unittest.TestCase):
 		self.assertVectorClose(math.mix((20, 30), (40, 10), -0.3), (20, 30))
 		self.assertVectorClose(math.mix((20, 30), (40, 10), 1.3), (40, 10))
 
-	def test_imix(self):
-		self.assertEqual(math.imix(20, 30, 0.33), 23)
-		self.assertEqual(math.imix((20, 30), (40, 10), 0.33), (27, 23))
+	def test_mixI(self):
+		self.assertEqual(math.mixI(20, 30, 0.33), 23)
+		self.assertEqual(math.mixI((20, 30), (40, 10), 0.33), (27, 23))
 
 	def test_step(self):
 		self.assertEqual(math.step(0, 1), 1)
@@ -125,26 +129,35 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.dsmoothfade(11, 10, 20, 4), 0.15625)
 		self.assertClose(math.dsmoothfade(19, 10, 20, 4), 0.15625)
 
-	def test_fadebetween(self):
-		self.assertClose(math.fadebetween(13, 10, 2, 20, 0), 1.4)
-		self.assertClose(math.fadebetween(9, 10, 2, 20, 0), 2)
-		self.assertClose(math.fadebetween(22, 10, 2, 20, 0), 0)
-		self.assertVectorClose(math.fadebetween(13, 10, (0, 0), 20, (1000, 2000)), (300, 600))
-		self.assertClose(math.fadebetween(13, 20, 0, 10, 2), 1.4)
-
-	def test_smoothfadebetween(self):
-		self.assertClose(math.smoothfadebetween(11, 10, 2, 14, 0), 1.6875)
-		self.assertClose(math.smoothfadebetween(9, 10, 2, 20, 0), 2)
-		self.assertClose(math.smoothfadebetween(22, 10, 2, 20, 0), 0)
-		self.assertVectorClose(math.smoothfadebetween(11, 10, (0, 0), 14, (1000, 2000)), (156.25, 312.5))
-		self.assertClose(math.smoothfadebetween(11, 14, 0, 10, 2), 1.6875)
-
 	def test_cycle(self):
 		self.assertEqual(math.cycle(0), 0)
 		self.assertClose(math.cycle(7), 0, abs_tol=1e-10)
 		self.assertClose(math.cycle(-4.5), 1)
 		self.assertClose(math.cycle(0.75), 0.5)
 		self.assertClose(math.cycle(0.4), 0.9045084971874737)
+
+	def test_interp(self):
+		self.assertClose(math.interp(13, 10, 2, 20, 0), 1.4)
+		self.assertClose(math.interp(9, 10, 2, 20, 0), 2)
+		self.assertClose(math.interp(22, 10, 2, 20, 0), 0)
+		self.assertVectorClose(math.interp(13, 10, (0, 0), 20, (1000, 2000)), (300, 600))
+		self.assertClose(math.interp(13, 20, 0, 10, 2), 1.4)
+
+	def test_smoothinterp(self):
+		self.assertClose(math.smoothinterp(11, 10, 2, 14, 0), 1.6875)
+		self.assertClose(math.smoothinterp(9, 10, 2, 20, 0), 2)
+		self.assertClose(math.smoothinterp(22, 10, 2, 20, 0), 0)
+		self.assertVectorClose(math.smoothinterp(11, 10, (0, 0), 14, (1000, 2000)), (156.25, 312.5))
+		self.assertClose(math.smoothinterp(11, 14, 0, 10, 2), 1.6875)
+
+	def test_interpI(self):
+		self.assertEqual(math.interpI(2/3, 0, 0, 1, 100), 67)
+		self.assertEqual(math.interpI(13.001, 10, 200, 20, 0), 140)
+		self.assertEqual(math.interpI(13.001, 10, (0, 0), 20, (1000, 2000)), (300, 600))
+
+	def test_smoothinterpI(self):
+		self.assertEqual(math.smoothinterpI(11, 10, 2, 14, 0), 2)
+		self.assertEqual(math.smoothinterpI(11, 10, (0, 0), 14, (1000, 2000)), (156, 312))
 
 	def test_approach(self):
 		self.assertClose(math.approach(10, 20, 1), 11)
@@ -189,17 +202,17 @@ class MaffTest(unittest.TestCase):
 		self.assertClose(math.softapproachA(A0, A1, 0.01), 10.03, rel_tol=1e-4)
 		self.assertClose(math.softapproachA(A0, A1, 7), A1)
 
-	def test_fadebetweenA(self):
-		self.assertClose(math.fadebetweenA(13, 10, 3, 20, 4 * math.tau + 4), 3.3)
-		self.assertClose(math.fadebetweenA(13, 20, 4 * math.tau + 4, 10, 3), 4 * math.tau + 3.3)
+	def test_interpA(self):
+		self.assertClose(math.interpA(13, 10, 3, 20, 4 * math.tau + 4), 3.3)
+		self.assertClose(math.interpA(13, 20, 4 * math.tau + 4, 10, 3), 4 * math.tau + 3.3)
 
 	def test_mixL(self):
 		self.assertClose(math.mixL(10, 10000, 1/3), 100)
 		self.assertClose(math.mixL(10000, 10, 1/3), 1000)
 
-	def test_fadebetweenL(self):
-		self.assertClose(math.fadebetweenL(1, 0, 10, 3, 10000), 100)
-		self.assertClose(math.fadebetweenL(1, 3, 10000, 0, 10), 100)
+	def test_interpL(self):
+		self.assertClose(math.interpL(1, 0, 10, 3, 10000), 100)
+		self.assertClose(math.interpL(1, 3, 10000, 0, 10), 100)
 
 	def test_CS(self):
 		cases = (0, 1, 1, 0), (1.5, 0, 0, 0), (math.tau / 8, math.sqrt(2), 1, 1)

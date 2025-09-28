@@ -17,6 +17,13 @@ Phi = phi - 1
 # So-called golden divergence angle of phyllotaxis, around 137.5 deg.
 phyllo = tau * (2 - phi)
 
+# Round to nearest integer
+def I(x):
+	try:
+		return tuple(int(round(a)) for a in x)
+	except TypeError:
+		return int(round(x))
+
 # GLSL functions
 def sign(x):
 	return 1. if x > 0 else -1. if x < 0 else 0.
@@ -28,12 +35,8 @@ def mix(x, y, a):
 		return tuple(b * (1 - a) + c * a for b, c in zip(x, y))
 	except TypeError:
 		return x * (1 - a) + y * a
-def imix(x, y, a):
-	a = clamp(a, 0, 1)
-	try:
-		return tuple(int(round(b * (1 - a) + c * a)) for b, c in zip(x, y))
-	except TypeError:
-		return int(round(x * (1 - a) + y * a))
+def mixI(xI, yI, a):
+	return I(mix(xI, yI, a))
 def step(edge, x):
 	return float(x >= edge)
 def smoothstep(edge0, edge1, x):
@@ -78,20 +81,25 @@ def dfade(x, x0, x1, dx):
 	return min(fade(x, x0, dx), 1 - fade(x, x1 - dx, dx))
 def dsmoothfade(x, x0, x1, dx):
 	return ease(dfade(x, x0, x1, dx))
-# Fade between function
+# Cycle between 0 and 1
+def cycle(a):
+	return 0.5 - 0.5 * math.cos(tau * a)
+
+# Interpolation functions
 def fadebetween(x, x0, y0, x1, y1):
 	if x1 < x0: x1, y1, x0, y0 = x0, y0, x1, y1
 	a = fade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
 interp = fadebetween
+def interpI(x, x0, yI0, x1, yI1):
+	return I(interp(x, x0, yI0, x1, yI1))
 def smoothfadebetween(x, x0, y0, x1, y1):
 	if x1 < x0: x1, y1, x0, y0 = x0, y0, x1, y1
 	a = smoothfade(x, x0, x1 - x0)
 	return mix(y0, y1, a)
 smoothinterp = smoothfadebetween
-# Cycle between 0 and 1
-def cycle(a):
-	return 0.5 - 0.5 * math.cos(tau * a)
+def smoothinterpI(x, x0, yI0, x1, yI1):
+	return I(smoothinterp(x, x0, yI0, x1, yI1))
 
 # Approach functions
 def approach(x, target, dx):
